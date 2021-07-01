@@ -8,27 +8,36 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import React, { useEffect, useState,useRef } from "react";
 require('firebase/auth');
 
-firebase.initializeApp({
+if (!firebase.apps.length) {
+  firebase.initializeApp({
     apiKey: "AIzaSyDwXF0eBSHWBibw_3k_t79hAf7hW4Yur04",
     authDomain: "reactchato.firebaseapp.com",
     projectId: "reactchato",
     storageBucket: "reactchato.appspot.com",
     messagingSenderId: "622355683911",
-    appId: "1:622355683911:web:00c4a08420fe3ca61c6f62",
-    measurementId: "G-ET4XL3XXC7"
+    appId: "1:622355683911:web:72107c6e37cd14241c6f62",
+    measurementId: "G-VQ94FB3P3C"
+  
+  })
+  ;
+}else {
+  firebase.app(); // if already initialized, use that one
+}
 
-})
+
 
 const auth=firebase.auth();
 const firestore=firebase.firestore();
 const analytics = firebase.analytics();
+let messageRef=firestore.collection('messages');
 
 function App() {
   const [user]=useAuthState(auth);
   return (
     <div className="App">
       <header className="App-header">
-      <h1>😃📄✏️</h1>
+      <h1>😃📄</h1>
+        <ChangeRoom/>
         <SignOut/>
        </header>
       <section>
@@ -39,6 +48,28 @@ function App() {
       </section>
     </div>
   );
+}
+
+function ChangeRoom(){
+  let [roomValue,setroomValue]=useState('');
+
+  const chroom=async(e)=>{
+    e.preventDefault();
+    //console.log(formValue)
+    if(roomValue==null) roomValue="messages"
+    messageRef=firestore.collection(roomValue);
+
+  }
+  // setFormValue('');
+  return auth.currentUser &&(
+    <>
+    <form onSubmit={chroom} className="roomform">
+        <input className="roominput" value={roomValue} onChange={(e)=>setroomValue(e.target.value)} placeholder="enter room number"/>
+        <button className="roombtn" disabled={!roomValue}>Submit</button>
+      </form>
+    </>
+  )
+
 }
 
 function SignIn(){
@@ -63,8 +94,7 @@ function SignOut(){
 
 function ChatRoom(){
   const dummy=useRef();
-  const messageRef=firestore.collection('messages');
-  const query=messageRef.orderBy('createdAt').limit(25);
+  const query=messageRef.orderBy('createdAt');
   const [messages]=useCollectionData(query,{idField:'id'});
   const [formValue,setFormValue]=useState('');
   const sendMessage=async(e)=>{
@@ -86,9 +116,9 @@ function ChatRoom(){
         {messages && messages.map(msg=><ChatMessage key={msg.id} message={msg}/>)}
         <div ref={dummy}></div>
       </main>
-      <form onSubmit={sendMessage}>
-        <input value={formValue} onChange={(e)=>setFormValue(e.target.value)} placeholder="Enter your message here"/>
-        <button type="submit" disabled={!formValue}>►</button> 
+      <form onSubmit={sendMessage} className="messageform">
+        <input className="messageinput" value={formValue} onChange={(e)=>setFormValue(e.target.value)} placeholder="Enter your message here"/>
+        <button className="messagebtn" type="submit" disabled={!formValue}>►</button> 
 
       </form>
 

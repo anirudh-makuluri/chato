@@ -54,8 +54,8 @@ main::-webkit-scrollbar-thumb {
   background: #6649b8;
 }
 
-form {
-  height: 10vh;
+form .messageform {
+  height: fit-content;
   position: fixed;
   bottom: 0;
   background-color: rgb(24, 23, 23);
@@ -65,13 +65,13 @@ form {
   font-size: 1.5rem;
 }
 
-form button {
+form button .messagebtn {
   width: 20%;
   background-color: rgb(8, 207, 233);
   color: white;
 }
 
-input {
+input .messageinput {
   line-height: 1.5;
   width: 100%;
   font-size: 1.5rem;
@@ -94,7 +94,7 @@ button {
   font-size: 1.25rem;
 }
 
-button:disabled {
+button:disabled .messagebtn .roombtn {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -147,4 +147,36 @@ img {
   height: 40px;
   border-radius: 50%;
   margin: 2px 5px;
+}
+
+.messageinput {
+  line-height: 1.5;
+  width: 80%;
+  font-size: 1.5rem;
+  background: rgb(58, 58, 58);
+  color: white;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+}
+
+.roominput {
+  line-height: 1.5;
+  width: 50%;
+  font-size: 30;
+  background: rgb(58, 58, 58);
+  color: white;
+  outline: none;
+  height: fit-content;
+  border: none;
+  padding: 0 10px;
+}
+.messagebtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.roombtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
