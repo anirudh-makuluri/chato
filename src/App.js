@@ -28,9 +28,11 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {/* <SignOut/> */}
+      <h1>😃📄✏️</h1>
+        <SignOut/>
        </header>
       <section>
+        
 
         {user ? <ChatRoom/> : <SignIn/>}
 
@@ -55,7 +57,7 @@ function SignIn(){
 
 function SignOut(){
    return auth.currentUser && (
-     <button className='sign-out' onClick={()=>auth.SignOut()}>Sign Out</button>
+     <button className='sign-out' onClick={()=>firebase.auth().signOut()}>Sign Out</button>
    )
 }
 
@@ -86,7 +88,7 @@ function ChatRoom(){
       </main>
       <form onSubmit={sendMessage}>
         <input value={formValue} onChange={(e)=>setFormValue(e.target.value)} placeholder="Enter your message here"/>
-        <button type="submit" disabled={!formValue}>Send</button> 
+        <button type="submit" disabled={!formValue}>►</button> 
 
       </form>
 
